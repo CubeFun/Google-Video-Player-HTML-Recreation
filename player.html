@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div#video_player_box{ width:550px; background:#000; margin:0px auto;}
+div#video_controls_bar{ width:530px; height:10px; background:url(back.png); padding:10px; color:#FFF; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+button#playpausebtn{
+	background:url(pause.png);
+	border:none;
+	width:58px;
+	height:21px;
+	cursor:pointer;
+	position: relative;
+	bottom: 11px;
+	right: 83px;
+}
+input#seekslider{
+    background:url(nicesldr.png);
+	border:none;
+	width:290px;
+	height:9px;
+	position: relative;
+	bottom: 11px;
+	right: 83px;
+}
+button#googlebutton{
+	background:url(google.png);
+	border:none;
+	width:70px;
+	height:23px;
+	cursor:pointer;
+	position: relative;
+	bottom: 10px;
+	right: -468px;
+}
+input#volumeslider{
+	background:url(vslider.png);
+	border:none;
+	width:69px;
+	height:13px;
+	cursor:pointer;
+	position: relative;
+	bottom: 37px;
+	left: 350px;
+}
+button#playpausebtn:hover{ opacity:1; }
+input#seekslider{ width:290px; }
+input#fullscreenbtn{ width:180px; }
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #000;
+	border:#666 1px solid;
+    height:4px;
+	position: relative;
+	bottom: 08px;
+}
+button#fullscreenbtn{
+	background:url(fullscrn.png);
+	border:none;
+	width:32px;
+	height:23px;
+	cursor:pointer;
+	position: relative;
+	bottom: 35px;
+	left: 351px;
+}
+button#fullscreenbtn:hover{ opacity:1; }
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #000;
+	border:#666 1px solid;
+    height:4px;
+	position: relative;
+	bottom: 08px;
+}
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+	background:url(slider.png);
+	border:none;
+	width:25px;
+	height:16px;
+	cursor:pointer;
+	position: relative;
+	bottom: 07px;
+	left: 08px;
+}
+span#curtimetext{
+	position: relative;
+	bottom: 20px;
+	left: -154px;
+}
+span#durtimetext{
+	position: relative;
+	bottom: 20px;
+	left: -148px;
+}
+</style>
+<script>
+var vid, playbtn, seekslider, googlebutton, curtimetext, durtimetext, volumeslider, fullscreenbtn;
+function intializePlayer(){
+	// Set object references
+	vid = document.getElementById("my_video");
+	googlebtn = document.getElementById("googlebutton");
+	playbtn = document.getElementById("playpausebtn");
+	seekslider = document.getElementById("seekslider");
+	curtimetext = document.getElementById("curtimetext");
+	durtimetext = document.getElementById("durtimetext");
+	volumeslider = document.getElementById("volumeslider");
+	fullscreenbtn = document.getElementById("fullscreenbtn");
+	// Add event listeners
+	playbtn.addEventListener("click",playPause,false);
+	seekslider.addEventListener("change",vidSeek,false);
+	vid.addEventListener("timeupdate",seektimeupdate,false);
+	volumeslider.addEventListener("change",setvolume,false);
+	fullscreenbtn.addEventListener("click",toggleFullScreen,false);
+}
+window.onload = intializePlayer;
+function playPause(){
+	if(vid.paused){
+		vid.play();
+		playbtn.style.background = "url(pause.png)";
+	} else {
+		vid.pause();
+		playbtn.style.background = "url(play.png)";
+	}
+}
+function vidSeek(){
+	var seekto = vid.duration * (seekslider.value / 100);
+	vid.currentTime = seekto;
+}
+function seektimeupdate(){
+	var nt = vid.currentTime * (100 / vid.duration);
+	seekslider.value = nt;
+	var curmins = Math.floor(vid.currentTime / 60);
+	var cursecs = Math.floor(vid.currentTime - curmins * 60);
+	var durmins = Math.floor(vid.duration / 60);
+	var dursecs = Math.floor(vid.duration - durmins * 60);
+	if(cursecs < 10){ cursecs = "0"+cursecs; }
+	if(dursecs < 10){ dursecs = "0"+dursecs; }
+	if(curmins < 10){ curmins = "0"+curmins; }
+	if(durmins < 10){ durmins = "0"+durmins; }
+	curtimetext.innerHTML = curmins+":"+cursecs;
+	durtimetext.innerHTML = durmins+":"+dursecs;
+}
+function setvolume(){
+	vid.volume = volumeslider.value / 100;
+}
+function toggleFullScreen(){
+	if(vid.requestFullScreen){
+		vid.requestFullScreen();
+	} else if(vid.webkitRequestFullScreen){
+		vid.webkitRequestFullScreen();
+	} else if(vid.mozRequestFullScreen){
+		vid.mozRequestFullScreen();
+	}
+}
+</script>
+</head>
+<body>
+<div id="video_player_box">
+  <video id="my_video" width="550" height="310" autoplay>
+    <source src="test.mp4">
+  </video>
+  <div id="video_controls_bar">
+    <button id="googlebutton"></button>
+	<button id="playpausebtn"></button>
+    <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
+    <span id="curtimetext" style="color:black; font-size:0.9vw">00:00</span><span id="durtimetext" style="color:black; font-size:0.9vw">00:00</span>
+    <input id="volumeslider" type="range" min="0" max="100" value="100" step="1">
+    <button id="fullscreenbtn"></button>
+  </div>
+</div>
+</body>
+</html>
+<html>
+<style>
+div.relative {
+  position: relative;
+  bottom: 31px;
+  right: -679px;
+} 
+</style>
+</head>
+<body>
+
+
+<div class="relative">/
+</div>
+
+</body>
+</html>
